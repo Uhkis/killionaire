@@ -24,7 +24,7 @@ var apicalls = {
       //As in, the summoner name is the key
       for (summoner in parsed) {
         var details = parsed[summoner];
-        return p.resolve(details.id);
+        return p.resolve(details);
       }
     }
 
@@ -32,9 +32,11 @@ var apicalls = {
     .spread(fulfill, reject.bind(null, 'Could not find ranked games for the given summoner name'));
 
   },
-
   // Get the stats as a promise from given summonerId and region
   getStats: function getStats (summonerId, region) {
+    if (typeof summonerId === 'object') {
+      summonerId = summonerId.id;
+    }
     console.log("Fetching stats...");
     function fulfill (response, body) {
       if (response.statusCode === 404) {
